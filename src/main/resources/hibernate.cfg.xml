@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="connection.url">jdbc:mysql://localhost:3306/aaenglish</property>
+    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+      <mapping class="com.tuyue.pojo.Agent"/>
+      <mapping class="com.tuyue.pojo.Nstudent"/>
+      <mapping class="com.tuyue.pojo.UserWallet"/>
+      <mapping class="com.tuyue.pojo.WalletDetails"/>
+      <mapping class="com.tuyue.pojo.AgentAccount"/>
+      <mapping class="com.tuyue.pojo.CourseGoodsOrder"/>
+      <mapping class="com.tuyue.pojo.Message"/>
+      <mapping class="com.tuyue.pojo.Acourse"/>
+    <mapping class="com.tuyue.pojo.CourseLevel"/>
+    <mapping class="com.tuyue.pojo.SclassWork"/>
+      <mapping class="com.tuyue.pojo.VadultWork"/>
+      <!-- <property name="connection.username"/> -->
+    <!-- <property name="connection.password"/> -->
+
+    <!-- DB schema will be updated if needed -->
+    <!-- <property name="hbm2ddl.auto">update</property> -->
+  </session-factory>
+</hibernate-configuration>
