@@ -1,6 +1,5 @@
 package com.tuyue.webModules.courseGoods.biz;
 
-import com.tuyue.appModules.download.controller.DownloadController;
 import com.tuyue.pojo.ACourseGood;
 import com.tuyue.result.Result;
 import com.tuyue.result.ResultUtil;

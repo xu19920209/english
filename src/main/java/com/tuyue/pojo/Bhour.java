@@ -11,12 +11,12 @@ import static javax.persistence.GenerationType.IDENTITY;
  */
 @Entity
 public class Bhour {
+
     private int bid;
     private String bname;
-    private Integer aid;
+    private Integer levelId;
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
     @Column(name = "bid")
     public int getBid() {
         return bid;
@@ -37,25 +37,25 @@ public class Bhour {
     }
 
     @Basic
-    @Column(name = "aid")
-    public Integer getAid() {
-        return aid;
+    @Column(name = "level_id")
+    public Integer getLevelId() {
+        return levelId;
     }
 
-    public void setAid(Integer aid) {
-        this.aid = aid;
+    public void setLevelId(Integer levelId) {
+        this.levelId = levelId;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
 
-        Bhour bhour = (Bhour) o;
+        Bhour bhour = (Bhour) object;
 
         if (bid != bhour.bid) return false;
         if (bname != null ? !bname.equals(bhour.bname) : bhour.bname != null) return false;
-        if (aid != null ? !aid.equals(bhour.aid) : bhour.aid != null) return false;
+        if (levelId != null ? !levelId.equals(bhour.levelId) : bhour.levelId != null) return false;
 
         return true;
     }
@@ -64,16 +64,7 @@ public class Bhour {
     public int hashCode() {
         int result = bid;
         result = 31 * result + (bname != null ? bname.hashCode() : 0);
-        result = 31 * result + (aid != null ? aid.hashCode() : 0);
+        result = 31 * result + (levelId != null ? levelId.hashCode() : 0);
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Bhour{" +
-                "bid=" + bid +
-                ", bname='" + bname + '\'' +
-                ", aid=" + aid +
-                '}';
     }
 }

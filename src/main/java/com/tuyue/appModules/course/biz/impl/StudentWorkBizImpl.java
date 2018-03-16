@@ -355,7 +355,6 @@ public class StudentWorkBizImpl implements IstudentWorkBiz {
              * 返回正数表示：o1大于o2。
              */
             public int compare(AllTestBean o1, AllTestBean o2) {
-
                 //按照学生的年龄进行升序排列
                 if(o1.getTime()!=null&&o1.getTime().length()>0){
                     return 1;
@@ -409,6 +408,7 @@ public class StudentWorkBizImpl implements IstudentWorkBiz {
      * @Description:根据学生查询测试题
      * @Date: 19:49 2017/11/8
      */
+    @Override
     @Transactional
     public Result selectTestByid(Integer nid) throws Exception {
         Nstudent one = ndao.getOne(Nstudent.class, nid);

@@ -26,7 +26,7 @@ public interface IstudentWorkBiz {
      * @Description:学生作业详情
      * @Date: 16:34 2017/9/14
      */
-    public Result stuWorkDetails(Integer nid,Integer bid,Integer index,String cids,String time) throws Exception;
+    public Result stuWorkDetails(Integer nid, Integer bid, Integer index, String cids, String time) throws Exception;
 
     /**
      * @Author: 徐慷慨
@@ -47,7 +47,7 @@ public interface IstudentWorkBiz {
      * @Description:请教详情
      * @Date: 15:19 2017/9/15
      */
-    public Result consultDetiles(Integer tid,Integer cid) throws Exception;
+    public Result consultDetiles(Integer tid, Integer cid) throws Exception;
 
 
     /**
@@ -55,7 +55,7 @@ public interface IstudentWorkBiz {
      * @Description:全部作业列表
      * @Date: 16:34 2017/9/14
      */
-    public Result stuWorkListALL(Integer nid,Integer currentPage, Integer pageSize) throws Exception;
+    public Result stuWorkListALL(Integer nid, Integer currentPage, Integer pageSize) throws Exception;
 
     /**
      * @Author: 徐慷慨
@@ -89,5 +89,5 @@ public interface IstudentWorkBiz {
      * @Description: 学生答题翻分
      * @Date: 14:38 2017/11/9
      */
-    public Result breakGrade(Integer nid,Integer score) throws Exception;
+    public Result breakGrade(Integer nid, Integer score) throws Exception;
 }

@@ -79,7 +79,7 @@ public class WebCourseGoodBizImpl implements CourseGoodBiz {
     public Result courseGoodsById(Integer id) throws Exception {
         ACourseGood one = aCourseGoodDao.getOne(ACourseGood.class, id);
         Ebranchschool ebranchschool = ebranchschoolIBaseDao.getOne(Ebranchschool.class, one.getEid());
-        one.setAddress(ebranchschool.getName());
+        one.setAddress(ebranchschool!=null?ebranchschool.getName():"");
         if (one != null) {
             return ResultUtil.success("根据id查看商品", one);
         }
@@ -477,7 +477,7 @@ public class WebCourseGoodBizImpl implements CourseGoodBiz {
                     Nstudent one1 = nstudentIBaseDao.getOne(Nstudent.class, courseGoodsOrder.getNid());
                     if(one1.getOpenId()!=null){
                         KaiKe kaiKe=new KaiKe();
-                        kaiKe.sendWxTemplate(one1.getOpenId(),null,one1.getUsername(),one.getCourseName(),one.getGoClassTime(),WeiUtil.accessToken());
+                        kaiKe.sendWxTemplate(one1.getOpenId(),null,one1.getUsername(),one.getCourseName(),one.getGoClassTime(), WeiUtil.accessToken());
                     }
                 }
             }

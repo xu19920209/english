@@ -17,6 +17,7 @@
     <mapping class="com.tuyue.pojo.CourseLevel"/>
     <mapping class="com.tuyue.pojo.SclassWork"/>
       <mapping class="com.tuyue.pojo.VadultWork"/>
+      <mapping class="com.tuyue.pojo.Bhour"/>
       <!-- <property name="connection.username"/> -->
     <!-- <property name="connection.password"/> -->
 

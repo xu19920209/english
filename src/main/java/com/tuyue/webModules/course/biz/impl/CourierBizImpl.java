@@ -238,7 +238,7 @@ public class CourierBizImpl implements IcourseBiz {
      */
     @Override
     public Result bhourList(Integer aid) throws Exception {
-        List<Bhour> list = bdao.findList("from Bhour where aid=" + aid);
+        List<Bhour> list = bdao.findList("from Bhour where levelId=" + aid);
         return ResultUtil.success("课时列表", list);
     }
 
@@ -430,8 +430,8 @@ public class CourierBizImpl implements IcourseBiz {
         String sql="from Bhour where levelId="+leveId;
         String count="select count(*) from Bhour where levelId="+leveId;
         if(name!=null){
-            sql="from Bhour where levelId="+leveId+" and name like '%"+name+"%'";
-            count="select count(*) from Bhour where levelId="+leveId+" and name like '%"+name+"%'";;
+            sql="from Bhour where levelId="+leveId+" and bname like '%"+name+"%'";
+            count="select count(*) from Bhour where levelId="+leveId+" and bname like '%"+name+"%'";;
         }
         Page<Bhour> page = bdao.findPage(currentPage, pageSiz, sql, count);
         List<InCourseBean> list = new ArrayList<InCourseBean>();

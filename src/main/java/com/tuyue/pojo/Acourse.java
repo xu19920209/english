@@ -13,20 +13,13 @@ import static javax.persistence.GenerationType.IDENTITY;
  */
 @Entity
 public class Acourse {
+
     private int aid;
     private String aname;
     private Timestamp creatTime;
 
-    public Acourse(int aid, String aname) {
-        this.aid = aid;
-        this.aname = aname;
-    }
-
-    public Acourse() {
-    }
-
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue
     @Column(name = "aid")
     public int getAid() {
         return aid;
@@ -46,34 +39,6 @@ public class Acourse {
         this.aname = aname;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Acourse acourse = (Acourse) o;
-
-        if (aid != acourse.aid) return false;
-        if (aname != null ? !aname.equals(acourse.aname) : acourse.aname != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = aid;
-        result = 31 * result + (aname != null ? aname.hashCode() : 0);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Acourse{" +
-                "aid=" + aid +
-                ", aname='" + aname + '\'' +
-                '}';
-    }
-
     @Basic
     @Column(name = "creat_time")
     public Timestamp getCreatTime() {
@@ -82,5 +47,27 @@ public class Acourse {
 
     public void setCreatTime(Timestamp creatTime) {
         this.creatTime = creatTime;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+
+        Acourse acourse = (Acourse) object;
+
+        if (aid != acourse.aid) return false;
+        if (aname != null ? !aname.equals(acourse.aname) : acourse.aname != null) return false;
+        if (creatTime != null ? !creatTime.equals(acourse.creatTime) : acourse.creatTime != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = aid;
+        result = 31 * result + (aname != null ? aname.hashCode() : 0);
+        result = 31 * result + (creatTime != null ? creatTime.hashCode() : 0);
+        return result;
     }
 }

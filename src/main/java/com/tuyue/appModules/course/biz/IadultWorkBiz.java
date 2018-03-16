@@ -23,7 +23,7 @@ public interface IadultWorkBiz {
      * @Description:成人作业详情
      * @Date: 11:07 2017/9/14
      */
-    public Result adultWorkDetails(Integer nid,Integer bid,Integer index,String cids,String time) throws Exception;
+    public Result adultWorkDetails(Integer nid, Integer bid, Integer index, String cids, String time) throws Exception;
     /**
      * @Author: 徐慷慨
      * @Description:成人答题

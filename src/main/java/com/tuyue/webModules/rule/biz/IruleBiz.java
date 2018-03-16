@@ -1,6 +1,5 @@
 package com.tuyue.webModules.rule.biz;
 
-import com.tuyue.appModules.download.controller.DownloadController;
 import com.tuyue.result.Result;
 import com.tuyue.webModules.rule.bean.RuleBean;
 

@@ -1,14 +1,6 @@
 package test;
 
 
-import com.tuyue.appModules.weChatGongZhong.util.WeiUtil;
-import com.tuyue.weichat.WeChatUtil;
-
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
-
 /**
  * 徐慷慨
  * 途悦信息

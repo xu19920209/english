@@ -30,33 +30,33 @@ public interface IcourseGoodBiz {
      * @Description:下订单
      * @Date: 13:33 2017/12/11
      */
-    public Result orderIn(Integer nid,Integer courseId,String phone ) throws Exception;
+    public Result orderIn(Integer nid, Integer courseId, String phone) throws Exception;
     /**
      * @Author: 徐慷慨
      * @Description: 未付款 已付款 已开课列表 type 1：未付款 2 已付款 3 已开课
      * @Date: 15:18 2017/12/11
      */
-    public Result orderList(Integer currentPage,Integer pageSize,Integer nid,Integer type) throws Exception;
+    public Result orderList(Integer currentPage, Integer pageSize, Integer nid, Integer type) throws Exception;
     /**
      * @Author: 徐慷慨
      * @Description: 查看课程详情
      * @Date: 8:58 2017/12/12
      */
-    public Result courseGoodsDetail(Integer courseId,Integer nid) throws Exception;
+    public Result courseGoodsDetail(Integer courseId, Integer nid) throws Exception;
 
     /**
      * @Author: 徐慷慨
      * @Description:预约课程列表
      * @Date: 9:44 2017/12/12
      */
-    public Result courseYuYue(String courseName,Integer num) throws Exception;
+    public Result courseYuYue(String courseName, Integer num) throws Exception;
 
     /**
      * @Author: 徐慷慨
      * @Description:预约课程
      * @Date: 10:36 2017/12/12
      */
-   public Result yuYue(Integer nid,Integer courseId,Integer num) throws Exception;
+   public Result yuYue(Integer nid, Integer courseId, Integer num) throws Exception;
 
    /**
     * @Author: 徐慷慨
@@ -70,7 +70,7 @@ public interface IcourseGoodBiz {
     * @Description:学生签到
     * @Date: 10:40 2017/12/12
     */
-   public Result sign(Integer nid,Integer courseId) throws Exception;
+   public Result sign(Integer nid, Integer courseId) throws Exception;
    /**
     * @Author: 徐慷慨
     * @Description: 点击支付回显信息

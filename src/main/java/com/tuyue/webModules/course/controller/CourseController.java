@@ -2,6 +2,7 @@ package com.tuyue.webModules.course.controller;
 
 import com.tuyue.pojo.Acourse;
 import com.tuyue.pojo.Bhour;
+import com.tuyue.pojo.CourseLevel;
 import com.tuyue.pojo.Ctopic;
 import com.tuyue.result.Result;
 import com.tuyue.result.ResultUtil;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -104,12 +106,9 @@ public class CourseController {
      * @Date: 9:32 2017/9/6
      */
     @RequestMapping("hourList.do")
-    public Result bhourList(Integer aid) throws Exception {
+    public Result bhourList(@RequestParam(required = true) Integer levelId) throws Exception {
         logger.error("课时列表");
-        if(aid==null ){
-            return ResultUtil.error(2,"aid不能为空！");
-        }
-        return biz.bhourList(aid);
+        return biz.bhourList(levelId);
     }
 
     /**
@@ -121,7 +120,7 @@ public class CourseController {
     @RequestMapping("updateBhour.do")
     public Result updateBhour(@RequestBody Bhour bhour) throws Exception {
         logger.error("修改课时");
-        if(bhour.getAid()==null&&bhour.getBname()==null){
+        if(bhour.getBid()==0&&bhour.getBname()==null){
             return ResultUtil.error(2,"参数不能为空！");
         }
         if (bhour.getBid() > 0) {
@@ -131,7 +130,54 @@ public class CourseController {
         }
 
     }
+    //*******************************************课程级别模块***********************************************************
 
+    /**
+     * 添加课程级别
+     * @param courseLevel
+     * @return
+     */
+    @RequestMapping("inCourseLevel")
+    public Result inCourseLevel(@RequestBody CourseLevel courseLevel){
+        if(courseLevel.getAid()==null){
+            return ResultUtil.error(2,"课程id不能为空");
+        }
+        return biz.inCourseLevel(courseLevel);
+    }
+
+    /**
+     * 修改课程级别
+     * @param courseLevel
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("upCourseLevel")
+    public Result upCourseLevel(@RequestBody CourseLevel courseLevel) throws Exception{
+        return biz.upCourseLevel(courseLevel);
+    }
+
+    /**
+     * 课程级别列表
+     * @param courseLevel
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("courseLevelList")
+    public Result courseLevelList(CourseLevel courseLevel) throws Exception{
+        return biz.courseLevelList(courseLevel);
+    }
+
+    /**
+     * 删除课程级别
+     * @param ids
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("delCourseLevel")
+    public Result delCourseLevel(@RequestParam(required = true) String ids) throws Exception{
+        return biz.delCourseLevel(ids);
+
+    }
 
     //****************************************具体课程内容模块**********************************************************
 
@@ -220,7 +266,16 @@ public class CourseController {
         return biz.courseManageList(aname,currentPage,pageSize);
     }
 
-
+    /**
+     * 课程详情列表
+     * @param leveId
+     * @param name
+     * @return
+     */
+    @RequestMapping("courseDetaisList")
+    public Result courseDetaisList(int leveId ,String name,@RequestParam(defaultValue ="1") Integer currentPage,@RequestParam(defaultValue ="10")Integer pageSiz) throws Exception{
+        return biz.courseDetaisList(leveId,name,currentPage,pageSiz);
+    }
     /**
      * @Author: 徐慷慨
      * @Description: 所有的课程/课时列表

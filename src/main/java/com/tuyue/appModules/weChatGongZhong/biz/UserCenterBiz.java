@@ -36,7 +36,7 @@ public interface UserCenterBiz {
      * @param ids
      * @return
      */
-    public Result getMoney(String ids,int nid) throws Exception;
+    public Result getMoney(String ids, int nid) throws Exception;
 
     /**
      * 提现
@@ -45,7 +45,7 @@ public interface UserCenterBiz {
      * @return
      * @throws Exception
      */
-    public Result withdraw(int nid,double money) throws Exception;
+    public Result withdraw(int nid, double money) throws Exception;
 
     /**
      * 流水记录

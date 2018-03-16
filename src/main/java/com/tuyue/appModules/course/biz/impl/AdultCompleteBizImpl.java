@@ -22,7 +22,6 @@ import java.util.List;
  * @Modified By:
  */
 @Service
-@Transactional
 public class AdultCompleteBizImpl implements IAdultCompleteBiz {
     @Autowired
     private IBaseDao<Acourse> acourseIBaseDao;

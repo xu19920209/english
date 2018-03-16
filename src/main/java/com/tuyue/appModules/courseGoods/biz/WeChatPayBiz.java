@@ -44,7 +44,7 @@ public interface WeChatPayBiz {
      * @Description:改变订单状态
      * @Date: 11:31 2017/12/20
      */
-    public boolean OrderState(String orderNo,Integer orderState) throws Exception;
+    public boolean OrderState(String orderNo, Integer orderState) throws Exception;
 
     public Nstudent selectNstudentByOrderNo(String orderNo) throws Exception;
 

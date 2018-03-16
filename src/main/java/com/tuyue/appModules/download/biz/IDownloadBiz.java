@@ -19,5 +19,5 @@ public interface IDownloadBiz {
      * @Description:错误单词录音
      * @Date: 8:53 2018/1/20
      */
-    public Result words(String word,String realyWord) throws Exception;
+    public Result words(String word, String realyWord) throws Exception;
 }
