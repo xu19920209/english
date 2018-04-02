@@ -33,8 +33,16 @@ public class WXinPay {
     @JacksonXmlProperty(localName = "trade_type")
     private String trade_type;
     private String openid;
+    @JacksonXmlProperty(localName = "scene_info")
+    private String scene_info;
 
+    public String getScene_info() {
+        return scene_info;
+    }
 
+    public void setScene_info(String scene_info) {
+        this.scene_info = scene_info;
+    }
 
     public String getOpenid() {
         return openid;

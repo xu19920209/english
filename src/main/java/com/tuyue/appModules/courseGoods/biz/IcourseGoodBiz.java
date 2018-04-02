@@ -30,7 +30,7 @@ public interface IcourseGoodBiz {
      * @Description:下订单
      * @Date: 13:33 2017/12/11
      */
-    public Result orderIn(Integer nid, Integer courseId, String phone) throws Exception;
+    public Result orderIn(Integer nid, Integer courseId, String phone,String name,String address) throws Exception;
     /**
      * @Author: 徐慷慨
      * @Description: 未付款 已付款 已开课列表 type 1：未付款 2 已付款 3 已开课

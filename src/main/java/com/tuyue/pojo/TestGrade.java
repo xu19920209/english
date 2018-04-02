@@ -11,7 +11,6 @@ import javax.persistence.*;
 @Table(name = "test_grade", schema = "aaenglish", catalog = "")
 public class TestGrade {
     private int teGrId;
-
     private Double grade;
     private Integer nid;
     private Integer oid;

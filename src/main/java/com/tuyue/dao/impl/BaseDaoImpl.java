@@ -207,8 +207,8 @@ public class BaseDaoImpl<T> implements IBaseDao<T> {
         //session.getTransaction().commit();
         return returnList;
         }catch (Exception e){
-            List<T> list=new ArrayList<T>();
-            return list;
+            System.out.println(e.getMessage());
+            return null;
         }
     }
 

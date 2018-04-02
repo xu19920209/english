@@ -15,6 +15,7 @@ public class Bhour {
     private int bid;
     private String bname;
     private Integer levelId;
+    private Integer isDel;
 
     @Id
     @Column(name = "bid")
@@ -46,25 +47,15 @@ public class Bhour {
         this.levelId = levelId;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
 
-        Bhour bhour = (Bhour) object;
 
-        if (bid != bhour.bid) return false;
-        if (bname != null ? !bname.equals(bhour.bname) : bhour.bname != null) return false;
-        if (levelId != null ? !levelId.equals(bhour.levelId) : bhour.levelId != null) return false;
-
-        return true;
+    @Basic
+    @Column(name = "is_del")
+    public Integer getIsDel() {
+        return isDel;
     }
 
-    @Override
-    public int hashCode() {
-        int result = bid;
-        result = 31 * result + (bname != null ? bname.hashCode() : 0);
-        result = 31 * result + (levelId != null ? levelId.hashCode() : 0);
-        return result;
+    public void setIsDel(Integer isDel) {
+        this.isDel = isDel;
     }
 }

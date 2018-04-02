@@ -1,6 +1,7 @@
 package com.tuyue.webModules.schoolAndPerson.biz.impl;
 
 import com.alibaba.fastjson.parser.deserializer.FieldDeserializer;
+import com.sun.xml.internal.ws.encoding.MIMEPartStreamingDataHandler;
 import com.tuyue.dao.IBaseDao;
 import com.tuyue.pojo.*;
 import com.tuyue.result.Result;
@@ -283,6 +284,7 @@ public class SchoolBizImpl implements IschoolBiz {
      * @Date: 14:48 2017/9/9
      */
     @Override
+    @Transactional
     public Result allotCourse(String path, Integer eid) throws Exception {
         List<QschoolCourse> list1 = qdao.findList("from QschoolCourse where eid=" + eid);
         if(list1.size()>0){
@@ -306,6 +308,7 @@ public class SchoolBizImpl implements IschoolBiz {
             listALL.add(s);
         }
         listALL.removeAll(list);//所有课时
+
         for(String aid : set){
             QschoolCourse qschoolCourse = new QschoolCourse();
             qschoolCourse.setQid(UUID.randomUUID().toString().replaceAll("-", ""));
@@ -319,7 +322,7 @@ public class SchoolBizImpl implements IschoolBiz {
                    bid+=split1[0]+",";
                }
             }
-            qschoolCourse.setBid(bid);
+            qschoolCourse.setLevelId(bid);
             courseList.add(qschoolCourse);
         }
         int i = qdao.batchSave(courseList);
@@ -327,6 +330,7 @@ public class SchoolBizImpl implements IschoolBiz {
             return ResultUtil.success("给分校分配课程成功！");
         }
         return ResultUtil.error(2,"给分校分配课程失败！");
+
     }
 
     //：：：：：：：：：：：：：：：：：：：员工模块：：：：：：：：：：：：：：：：：：：：：：：：：：：：：

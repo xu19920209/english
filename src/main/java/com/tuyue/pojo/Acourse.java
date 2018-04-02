@@ -17,6 +17,7 @@ public class Acourse {
     private int aid;
     private String aname;
     private Timestamp creatTime;
+    private Integer isDel;
 
     @Id
     @GeneratedValue
@@ -69,5 +70,15 @@ public class Acourse {
         result = 31 * result + (aname != null ? aname.hashCode() : 0);
         result = 31 * result + (creatTime != null ? creatTime.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "is_del")
+    public Integer getIsDel() {
+        return isDel;
+    }
+
+    public void setIsDel(Integer isDel) {
+        this.isDel = isDel;
     }
 }

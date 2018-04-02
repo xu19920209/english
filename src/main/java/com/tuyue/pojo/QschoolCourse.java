@@ -15,7 +15,7 @@ public class QschoolCourse {
     private String qid;
     private Integer aid;
     private Integer eid;
-    private String bid;
+    private String levelId;
     private String path;
 
     @Id
@@ -49,13 +49,13 @@ public class QschoolCourse {
     }
 
     @Basic
-    @Column(name = "bid")
-    public String getBid() {
-        return bid;
+    @Column(name = "level_id")
+    public String getLevelId() {
+        return levelId;
     }
 
-    public void setBid(String bid) {
-        this.bid = bid;
+    public void setLevelId(String levelId) {
+        this.levelId = levelId;
     }
 
     @Basic
@@ -68,30 +68,4 @@ public class QschoolCourse {
         this.path = path;
     }
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        QschoolCourse that = (QschoolCourse) o;
-
-        if (qid != null ? !qid.equals(that.qid) : that.qid != null) return false;
-        if (aid != null ? !aid.equals(that.aid) : that.aid != null) return false;
-        if (eid != null ? !eid.equals(that.eid) : that.eid != null) return false;
-        if (bid != null ? !bid.equals(that.bid) : that.bid != null) return false;
-        if (path != null ? !path.equals(that.path) : that.path != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = qid != null ? qid.hashCode() : 0;
-        result = 31 * result + (aid != null ? aid.hashCode() : 0);
-        result = 31 * result + (eid != null ? eid.hashCode() : 0);
-        result = 31 * result + (bid != null ? bid.hashCode() : 0);
-        result = 31 * result + (path != null ? path.hashCode() : 0);
-        return result;
-    }
 }

@@ -11,6 +11,15 @@ public class YeJiMingXi {
     private double money;
     private String agentName;
     private String time;
+    private String address;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public String getCourseName() {
         return courseName;

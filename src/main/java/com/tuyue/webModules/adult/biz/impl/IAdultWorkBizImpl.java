@@ -98,30 +98,32 @@ public class IAdultWorkBizImpl implements IAdultWorkBiz {
         out.println(chql);
         Page<VadultWork> page = vadultWorkIBaseDao.findPage(currentPage, pageSize, hql, chql);
         ArrayList<VadultWorkBean> vadultWorkBeans = new ArrayList<VadultWorkBean>();
-        for (VadultWork vadultWork : page.getList()) {
-            VadultWorkBean vadultWorkBean = new VadultWorkBean();
-            vadultWorkBean.setAid(vadultWork.getAid());
-            vadultWorkBean.setAname(acourseIBaseDao.getOne(Acourse.class,vadultWork.getAid()).getAname());
-            vadultWorkBean.setBid(vadultWork.getBid());
-            vadultWorkBean.setBname(bhourIBaseDao.getOne(Bhour.class,vadultWork.getBid()).getBname());
-            vadultWorkBean.setLayoutTime(vadultWork.getLayoutTime());
-            List<VadultWork> vadultWorkList = vadultWorkIBaseDao.findList("FROM VadultWork WHERE aid ="+vadultWork.getAid() + " and bid=" + vadultWork.getBid() + " and layoutTime='" + vadultWork.getLayoutTime() + "' and vflag=1 ");
-            ArrayList<Ctopic> ctopics = new ArrayList<Ctopic>();
-            StringBuffer vids = new StringBuffer("");
-            int count=0;
-            for (VadultWork work : vadultWorkList) {
-                count++;
-                Ctopic ctopic = ctopicIBaseDao.getOne(Ctopic.class, work.getCid());
-                ctopics.add(ctopic);
-                int vid = work.getVid();
-                vids.append(vid);
-                if (count!=vadultWorkList.size()){
-                    vids.append(",");
+        if(page!=null&&page.getList()!=null&&page.getList().size()>0){
+            for (VadultWork vadultWork : page.getList()) {
+                VadultWorkBean vadultWorkBean = new VadultWorkBean();
+                vadultWorkBean.setAid(vadultWork.getAid());
+                vadultWorkBean.setAname(acourseIBaseDao.getOne(Acourse.class,vadultWork.getAid()).getAname());
+                vadultWorkBean.setBid(vadultWork.getBid());
+                vadultWorkBean.setBname(bhourIBaseDao.getOne(Bhour.class,vadultWork.getBid()).getBname());
+                vadultWorkBean.setLayoutTime(vadultWork.getLayoutTime());
+                List<VadultWork> vadultWorkList = vadultWorkIBaseDao.findList("FROM VadultWork WHERE aid ="+vadultWork.getAid() + " and bid=" + vadultWork.getBid() + " and layoutTime='" + vadultWork.getLayoutTime() + "' and vflag=1 ");
+                ArrayList<Ctopic> ctopics = new ArrayList<Ctopic>();
+                StringBuffer vids = new StringBuffer("");
+                int count=0;
+                for (VadultWork work : vadultWorkList) {
+                    count++;
+                    Ctopic ctopic = ctopicIBaseDao.getOne(Ctopic.class, work.getCid());
+                    ctopics.add(ctopic);
+                    int vid = work.getVid();
+                    vids.append(vid);
+                    if (count!=vadultWorkList.size()){
+                        vids.append(",");
+                    }
                 }
+                vadultWorkBean.setVids(vids.toString());
+                vadultWorkBean.setCtopics(ctopics);
+                vadultWorkBeans.add(vadultWorkBean);
             }
-            vadultWorkBean.setVids(vids.toString());
-            vadultWorkBean.setCtopics(ctopics);
-            vadultWorkBeans.add(vadultWorkBean);
         }
         Page<VadultWorkBean> vadultWorkBeanPage = new Page<VadultWorkBean>();
         vadultWorkBeanPage.setList(vadultWorkBeans);
@@ -131,6 +133,4 @@ public class IAdultWorkBizImpl implements IAdultWorkBiz {
         vadultWorkBeanPage.setPageSize(page.getPageSize());
         return vadultWorkBeanPage;
     }
-
-
 }

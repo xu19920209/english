@@ -47,7 +47,6 @@ public class PartMoneyBizImpl implements PartMoneyBiz {
         boolean flag = false;
         try {
             List<AgentAccount> list1 = new ArrayList<AgentAccount>();
-            System.out.println("orderNo" + orderNo);
             //根据订单号找到订单
             CourseGoodsOrder courseGoodsOrder = courseGoodsOrderIBaseDao.findOne(" FROM CourseGoodsOrder where orderNo='" + orderNo + "'");
             // 根据订单号找到购买者
@@ -64,10 +63,14 @@ public class PartMoneyBizImpl implements PartMoneyBiz {
                 status = 1;
             }
             Double price = one1.getCoursePrice();
+            //找到所有父级联系人
             List<Agent> list = agentIBaseDao.findList(" from Agent where nid in (" + one.getParentIds() + ") order by creatTime desc");
+            /**
+             * map 中 2：是校长  3：是总监1 31：是总监2  4： 执行董事1 5：执行董事2 6：执行董事3
+             */
             Map<String, Integer> map = new HashMap();
             if (list != null && list.size() > 0) {
-                if (list.get(0).getAgentStatus() == 2) { //父级是校长
+                if (list.get(0).getAgentStatus() == 2) { //父级是校长或者是vip会员
                     map.put("2", list.get(0).getNid());
                     for (int i = 1; i < list.size(); i++) {
                         if (list.get(i).getAgentStatus() == 2) { // 校长跳过
@@ -131,7 +134,7 @@ public class PartMoneyBizImpl implements PartMoneyBiz {
 
                         }
                     }
-                } else {
+                } else { //父级是执行董事
                     for (int i = 0; i < list.size(); i++) {
                         if (list.get(i).getAgentStatus() == 4) {
                             if (map.get("6") != null) {
@@ -153,11 +156,14 @@ public class PartMoneyBizImpl implements PartMoneyBiz {
                         }
                     }
                 }
-
-
                 for (Map.Entry<String, Integer> entry : map.entrySet()) {
                     System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
                 }
+
+
+
+
+
                 /**
                  * 接下来是分红操作
                  * 1：先给购买该课程的人身份（学员、总监、董事）

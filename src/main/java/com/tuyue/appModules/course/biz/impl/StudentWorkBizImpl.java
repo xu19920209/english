@@ -1,4 +1,5 @@
 package com.tuyue.appModules.course.biz.impl;
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import com.tuyue.appModules.course.bean.*;
 import com.tuyue.appModules.course.biz.IstudentWorkBiz;
 import com.tuyue.dao.IBaseDao;
@@ -54,6 +55,8 @@ public class StudentWorkBizImpl implements IstudentWorkBiz {
     private IBaseDao<Rule> ruleIBaseDao;
     @Autowired
     private IBaseDao<RuleLevel>ruleLevelIBaseDao;
+    @Autowired
+    private IBaseDao<CourseLevel>courseLevelIBaseDao;
 
 
     /**
@@ -86,10 +89,15 @@ public class StudentWorkBizImpl implements IstudentWorkBiz {
                 workListBean.setTotal(list2.size());
                 Acourse adaoOne = adao.getOne(Acourse.class, sclassWork.getAid());
                 Bhour bdaoOne = bdao.getOne(Bhour.class, sclassWork.getBid());
+                CourseLevel one1 = courseLevelIBaseDao.getOne(CourseLevel.class, sclassWork.getLevelId());
                 workListBean.setAid(adaoOne.getAid());
                 workListBean.setAname(adaoOne.getAname());
                 workListBean.setBid(bdaoOne.getBid());
                 workListBean.setBname(bdaoOne.getBname());
+                if(one1!=null){
+                    workListBean.setLevelId(one1.getLevelId());
+                    workListBean.setLevelName(one1.getLevelName());
+                }
                 //完成条数
                 List<TstuWorkFinish> list3 = tdao.findList("select t from  TstuWorkFinish t ,SclassWork s where s.sid=t.sid and s.oid=" + one.getOid() + " and s.bid=" + sclassWork.getBid() +" and t.nid="+nid+" and s.layoutTime='"+sclassWork.getLayoutTime()+"'");
                 workListBean.setFinish(list3.size());
@@ -354,6 +362,7 @@ public class StudentWorkBizImpl implements IstudentWorkBiz {
              * 返回0 表示：o1和o2相等，
              * 返回正数表示：o1大于o2。
              */
+            @Override
             public int compare(AllTestBean o1, AllTestBean o2) {
                 //按照学生的年龄进行升序排列
                 if(o1.getTime()!=null&&o1.getTime().length()>0){
@@ -428,7 +437,7 @@ public class StudentWorkBizImpl implements IstudentWorkBiz {
         int save = testGradeIBaseDao.save(testGrade);
         if(save>0){
             int i = ndao.deleteWithHql("update Nstudent set isTest=1 where nid=" + testGrade.getNid());
-            return ResultUtil.success("success");
+            return ResultUtil.success("success",null);
         }
         return ResultUtil.error(2,"失败！");
     }

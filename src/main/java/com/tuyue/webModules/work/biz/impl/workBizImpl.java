@@ -63,6 +63,8 @@ public class workBizImpl implements IworkBiz {
     private IBaseDao<VadultWork>vdao;
     @Autowired
     private IBaseDao<AllText> allTextIBaseDao;
+    @Autowired
+    private IBaseDao<CourseLevel>courseLevelIBaseDao;
 
     /**
      * @Author: 徐慷慨
@@ -123,6 +125,7 @@ public class workBizImpl implements IworkBiz {
             }
             maps.put("type", String.valueOf(1));  //type  = 1 布置作业 type = 2  老师鼓励学生了
             JPushUtil.sendMsgToApp("你有新的作业了","老师布置作业了，快去完成","type",maps,string);
+            JPushUtil.sendMsgToIos("你有新的作业了","老师布置作业了，快去完成","type",maps,string);
             return ResultUtil.success("班级布置作业！");
         } else {
             return ResultUtil.error(2, "班级布置失败！");
@@ -153,12 +156,12 @@ public class workBizImpl implements IworkBiz {
         if(list1.size()>0){
             ID.removeAll(haveId);
         }
-
         for (Integer id : ID) {
             VadultWork vadultWork = new VadultWork();
             vadultWork.setCid(id);
             vadultWork.setAid(insertWorBean.getAid());
             vadultWork.setBid(insertWorBean.getBid());
+            vadultWork.setLevelId(insertWorBean.getLevelId());
             list.add(vadultWork);
         }
         int i = vdao.batchSave(list);
@@ -184,23 +187,23 @@ public class workBizImpl implements IworkBiz {
 
     /**
      * @Author: 徐慷慨
-     * @Description: 课时列表
+     * @Description: 课程级别列表
      * @Date: 11:21 2017/9/11
      */
     @Override
     public Result schoolHourList(Integer aid, Integer eid) throws Exception {
         QschoolCourse one = qdao.findOne(" from QschoolCourse where aid=" + aid + " and eid=" + eid);
         String bid = "";
-        if (one.getBid().endsWith(",")) {
-            bid = one.getBid().substring(0, one.getBid().length() - 1);
+        if (one.getLevelId().endsWith(",")) {
+            bid = one.getLevelId().substring(0, one.getLevelId().length() - 1);
         } else {
-            bid = one.getBid();
+            bid = one.getLevelId();
         }
 
-        List<Bhour> list = bdao.findList(" from Bhour where bid in(" + bid + ")");
+        List<CourseLevel> list = courseLevelIBaseDao.findList(" from CourseLevel where levelId in(" + bid + ")");
         Map map = new HashMap();
         map.put("list", list);
-        return ResultUtil.success("课时列表", map);
+        return ResultUtil.success("课程级别列表", map);
     }
 
     /**
@@ -224,8 +227,13 @@ public class workBizImpl implements IworkBiz {
     @Override
     public Result classList(Integer fid) throws Exception {
         Fstaff one = fdao.getOne(Fstaff.class, fid);
-        Ebranchschool one1 = edao.findOne(" from Ebranchschool where eid=" + one.getEid());
-        List<Oclass> list = odao.findList(" from Oclass where eid="+one1.getEid());
+        List<Oclass> list =new ArrayList<>();
+        if(one!=null){
+            Ebranchschool one1 = edao.findOne(" from Ebranchschool where eid=" + one.getEid());
+            if(one1!=null){
+                 list = odao.findList(" from Oclass where eid="+one1.getEid());
+            }
+        }
         Map map = new HashMap();
         map.put("list", list);
         return ResultUtil.success("班级列表", map);
@@ -404,20 +412,6 @@ public class workBizImpl implements IworkBiz {
         }
         return ResultUtil.success("学生作业详情",list2);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

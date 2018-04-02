@@ -8,13 +8,31 @@ package com.tuyue.appModules.course.bean;
 public class WorkListBean {
     private Integer aid;
     private Integer bid;
+    private Integer levelId;
     private String aname;
     private String bname;
+    private String levelName;
     private Integer total;//作业总数
     private Integer finish;//完成的个数
     private Integer  grade;//得分
     private String  layoutTime;//布置时间
     private String cids;
+
+    public Integer getLevelId() {
+        return levelId;
+    }
+
+    public void setLevelId(Integer levelId) {
+        this.levelId = levelId;
+    }
+
+    public String getLevelName() {
+        return levelName;
+    }
+
+    public void setLevelName(String levelName) {
+        this.levelName = levelName;
+    }
 
     public String getCids() {
         return cids;

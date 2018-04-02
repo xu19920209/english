@@ -37,14 +37,7 @@ public class AppCourseController {
      * @param pageSiz
      * @Date: 16:47 2017/12/12
      */
-    /**
-     *
-     * @param currentPage
-     * @param pageSiz
-     * @return
-     * @throws Exception
-     */
-    @GetMapping("courseGoodsList.do")
+     @GetMapping("courseGoodsList.do")
     public Result courseGoodsList(Integer currentPage,Integer pageSiz) throws Exception{
 
         if(currentPage==null){
@@ -63,8 +56,8 @@ public class AppCourseController {
      * @Date: 13:33 2017/12/11
      */
     @GetMapping("orderIn.do")
-    public Result orderIn(Integer nid,Integer courseId,String phone) throws Exception{
-        return courseGoodBiz.orderIn(nid,courseId,phone);
+    public Result orderIn(Integer nid,Integer courseId,String phone,String name,String address) throws Exception{
+        return courseGoodBiz.orderIn(nid,courseId,phone,name,address);
     }
     /**
      * @Author: 徐慷慨

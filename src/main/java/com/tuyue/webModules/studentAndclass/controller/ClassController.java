@@ -123,9 +123,9 @@ public class ClassController {
     public Result list(String className,Integer classFid,Integer teachFid,Integer eid,Integer currentPage,Integer pageSize) throws Exception {
         logger.error("班级list");
         logger.error("班级名称："+className+"老师id"+teachFid+"班主任"+classFid);
-        if (className!=null) {
-            className = new String(className.getBytes("iso8859-1"), "utf-8");
-        }
+//        if (className!=null) {
+//            className = new String(className.getBytes("iso8859-1"), "utf-8");
+//        }
         if (eid==null) {
             return ResultUtil.error(2,"校区ID不能为空");
         }

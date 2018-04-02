@@ -22,8 +22,12 @@ public class CourseGoodsOrder {
     private Double payMoney;
     private String details;
     private String address;
+    private String name;
+    private String phone;
 
+    @Basic
     @Transient
+    @Column(name = "address")
     public String getAddress() {
         return address;
     }
@@ -31,6 +35,7 @@ public class CourseGoodsOrder {
     public void setAddress(String address) {
         this.address = address;
     }
+
     @Id
     @Column(name = "courseOrderId")
     public int getCourseOrderId() {
@@ -131,4 +136,60 @@ public class CourseGoodsOrder {
         this.details = details;
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+
+        CourseGoodsOrder that = (CourseGoodsOrder) object;
+
+        if (courseOrderId != that.courseOrderId) return false;
+        if (courseId != null ? !courseId.equals(that.courseId) : that.courseId != null) return false;
+        if (orderState != null ? !orderState.equals(that.orderState) : that.orderState != null) return false;
+        if (payTime != null ? !payTime.equals(that.payTime) : that.payTime != null) return false;
+        if (orderTime != null ? !orderTime.equals(that.orderTime) : that.orderTime != null) return false;
+        if (orderNo != null ? !orderNo.equals(that.orderNo) : that.orderNo != null) return false;
+        if (payWay != null ? !payWay.equals(that.payWay) : that.payWay != null) return false;
+        if (nid != null ? !nid.equals(that.nid) : that.nid != null) return false;
+        if (payMoney != null ? !payMoney.equals(that.payMoney) : that.payMoney != null) return false;
+        if (details != null ? !details.equals(that.details) : that.details != null) return false;
+        if (address != null ? !address.equals(that.address) : that.address != null) return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = courseOrderId;
+        result = 31 * result + (courseId != null ? courseId.hashCode() : 0);
+        result = 31 * result + (orderState != null ? orderState.hashCode() : 0);
+        result = 31 * result + (payTime != null ? payTime.hashCode() : 0);
+        result = 31 * result + (orderTime != null ? orderTime.hashCode() : 0);
+        result = 31 * result + (orderNo != null ? orderNo.hashCode() : 0);
+        result = 31 * result + (payWay != null ? payWay.hashCode() : 0);
+        result = 31 * result + (nid != null ? nid.hashCode() : 0);
+        result = 31 * result + (payMoney != null ? payMoney.hashCode() : 0);
+        result = 31 * result + (details != null ? details.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        return result;
+    }
+
+    @Basic
+    @Column(name = "name")
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Basic
+    @Column(name = "phone")
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 }

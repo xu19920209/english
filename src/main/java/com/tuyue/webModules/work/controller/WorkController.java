@@ -65,10 +65,10 @@ public class WorkController {
 
     /**
      * @Author: 徐慷慨
-     * @Description: 课时列表
+     * @Description: 分校课程级别列表
      * @Date: 11:21 2017/9/11
      */
-    @RequestMapping("hourList.do")
+    @RequestMapping("levelList.do")
     public Result schoolHourList(Integer aid, Integer eid) throws Exception {
         logger.error("课时列表");
         if (aid == null || eid == null) {

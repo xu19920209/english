@@ -29,7 +29,7 @@ public interface IpersonalCenterBiz {
      * @Description:忘记密码
      * @Date: 9:39 2017/9/14
      */
-    public Result forgetPwd(Nstudent nstudent) throws Exception;
+    public Result forgetPwd(String userName,String passWord) throws Exception;
 
     /**
      * @Author: 徐慷慨

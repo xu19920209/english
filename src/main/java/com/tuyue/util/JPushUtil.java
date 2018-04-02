@@ -47,9 +47,10 @@ public class JPushUtil {
             jPushClient.sendPush(PushPayload.newBuilder()
                     .setPlatform(Platform.ios())  //ios , android
                     .setAudience(Audience.alias(alias))
-                    .setNotification(Notification.newBuilder().addPlatformNotification(IosNotification.newBuilder()
-                    .setBadge(0).setAlert(alert).addExtras(map).build()).build())
-                    //.setOptions(Options.newBuilder().setApnsProduction(true).build())
+                    .setNotification(Notification.newBuilder()
+                            .addPlatformNotification(IosNotification.newBuilder()
+                    .setBadge(0).setSound("defalut").setAlert(alert).addExtras(map).build()).build())
+                    .setOptions(Options.newBuilder().setApnsProduction(true).build())
                     .build());
         } catch (APIConnectionException e) {
             e.printStackTrace();
@@ -61,7 +62,7 @@ public class JPushUtil {
     public static void main(String[] args) {
         HashMap<String, String> maps = new HashMap<String, String>();
         maps.put("type", String.valueOf(1));
-        sendMsgToIos("你有新的作业了","","老师布置作业了",maps,"175A2F9207F25959FE6913F3D19159ED");
-       //sendMsgToApp("你有新的作业了","","老师布置作业了",maps,"175A2F9207F25959FE6913F3D19159ED");
+        //sendMsgToIos("你有新的作业了","","老师布置作业了",maps,"175A2F9207F25959FE6913F3D19159ED");
+       sendMsgToIos("你有新的作业了","","老师布置作业了",maps,"175A2F9207F25959FE6913F3D19159ED");
     }
 }

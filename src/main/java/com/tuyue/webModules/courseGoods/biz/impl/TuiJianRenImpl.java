@@ -77,7 +77,7 @@ public class TuiJianRenImpl implements TuiJianRen {
          if(page.getList()!=null&&page.getList().size()>0){
              for (Agent agent : page.getList()) {
                  Nstudent one = nstudentIBaseDao.getOne(Nstudent.class, agent.getNid());
-                 agent.setStudentName(one.getStudentName());
+                 agent.setStudentName(one!=null?one.getStudentName():"");
                  Nstudent one1 = nstudentIBaseDao.findOne("from Nstudent where username='" + one.getReferrerPhone() + "'");
                  if(one1!=null){
                      agent.setTuijainName(one1.getStudentName());
@@ -212,7 +212,6 @@ public class TuiJianRenImpl implements TuiJianRen {
                        count.append(" and agentId in ("+ids+") ");
                    }
                }
-
           if(courseName!=null){
               List<ACourseGood> lists = aCourseGoodIBaseDao.findList(" from ACourseGood where courseName like '%" + courseName + "%'");
               String idss = "";
@@ -259,6 +258,7 @@ public class TuiJianRenImpl implements TuiJianRen {
                     yeJiMingXi.setMoney(courseGoodsOrder.getPayMoney());
                 }
                 yeJiMingXi.setTime(courseGoodsOrder.getPayTime().toString().substring(0,courseGoodsOrder.getPayTime().toString().length()-2));
+                yeJiMingXi.setAddress(courseGoodsOrder.getAddress());
                 list.add(yeJiMingXi);
             }
         }

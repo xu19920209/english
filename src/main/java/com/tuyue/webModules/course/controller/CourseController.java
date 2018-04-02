@@ -120,6 +120,9 @@ public class CourseController {
     @RequestMapping("updateBhour.do")
     public Result updateBhour(@RequestBody Bhour bhour) throws Exception {
         logger.error("修改课时");
+        if(bhour.getLevelId()==null||bhour.getLevelId()<=0){
+            return ResultUtil.error(2,"levelId不能为空！");
+        }
         if(bhour.getBid()==0&&bhour.getBname()==null){
             return ResultUtil.error(2,"参数不能为空！");
         }
@@ -204,6 +207,7 @@ public class CourseController {
     @RequestMapping("insertCtopic.do")
     public Result insertCtopic(@RequestBody InCourseBean inCourseBean) {
         logger.error("添加课程详情");
+        System.out.println(inCourseBean.toString());
         return biz.insertCtopic(inCourseBean);
     }
 
@@ -258,7 +262,7 @@ public class CourseController {
      * @Date: 17:21 2017/9/7
      */
     @RequestMapping("courseManageList.do")
-    public Result courseManageList(String aname,Integer currentPage,Integer pageSize) throws Exception{
+    public Result courseManageList(String aname,@RequestParam(defaultValue ="1") Integer currentPage,@RequestParam(defaultValue ="10")Integer pageSize) throws Exception{
 //        logger.error("课程管理列表");
 //        if(aname!=null){
 //            aname = new String(aname.getBytes("iso8859-1"),"utf-8");
@@ -268,13 +272,13 @@ public class CourseController {
 
     /**
      * 课程详情列表
-     * @param leveId
+     * @param levelId
      * @param name
      * @return
      */
-    @RequestMapping("courseDetaisList")
-    public Result courseDetaisList(int leveId ,String name,@RequestParam(defaultValue ="1") Integer currentPage,@RequestParam(defaultValue ="10")Integer pageSiz) throws Exception{
-        return biz.courseDetaisList(leveId,name,currentPage,pageSiz);
+    @RequestMapping("courseDetailsList")
+    public Result courseDetaisList(@RequestParam(required = true) int levelId ,String name,@RequestParam(defaultValue ="1") Integer currentPage,@RequestParam(defaultValue ="10")Integer pageSiz) throws Exception{
+        return biz.courseDetaisList(levelId,name,currentPage,pageSiz);
     }
     /**
      * @Author: 徐慷慨

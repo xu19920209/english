@@ -23,13 +23,13 @@
             <fileNamePattern>log/%d{yyyy-MM-dd-HH'.log'}</fileNamePattern>
         </rollingPolicy>
     </appender>
-    <logger name="org.springframework" level="WARN"/>
-    <logger name="org.springframework.remoting" level="WARN"/>
-    <logger name="org.springframework.scheduling.quartz" level="WARN"/>
-    <logger name="org.springframework.data.jpa" level="DEBUG"/>
-    <logger name="org.cometd" level="WARN"/>
-    <logger name="ch.qos.logback" level="WARN"/>
-    <logger name="com.springapp.mvc" level="DEBUG"/>
+    <!--<logger name="org.springframework" level="WARN"/>-->
+    <!--<logger name="org.springframework.remoting" level="WARN"/>-->
+    <!--<logger name="org.springframework.scheduling.quartz" level="WARN"/>-->
+    <!--<logger name="org.springframework.data.jpa" level="DEBUG"/>-->
+    <!--<logger name="org.cometd" level="WARN"/>-->
+    <!--<logger name="ch.qos.logback" level="WARN"/>-->
+    <!--<logger name="com.springapp.mvc" level="DEBUG"/>-->
 
     <root level="ERROR">
         <appender-ref ref="stdout"/>

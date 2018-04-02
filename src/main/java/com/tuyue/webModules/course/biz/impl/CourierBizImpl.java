@@ -49,12 +49,14 @@ public class CourierBizImpl implements IcourseBiz {
      */
     @Override
     public Result insertCourse(Acourse acourse) throws Exception {
-        Acourse adaoOne = adao.findOne(" from Acourse where aname='" + acourse.getAname() + "'");
+
+        Acourse adaoOne = adao.findOne(" from Acourse where aname='" + acourse.getAname() + "' and isDel=2");
         if (adaoOne != null) {
             return ResultUtil.error(2, "课程已存在！");
         }
         Acourse acourse1 = new Acourse();
         acourse1.setAname(acourse.getAname());
+        acourse1.setIsDel(2);
         int i = adao.save(acourse1);
         Acourse one = adao.getOne(Acourse.class, i);
         if (i > 0) {
@@ -76,11 +78,11 @@ public class CourierBizImpl implements IcourseBiz {
             aid = aid.substring(0, aid.length() - 1);
         }
         try {
-            List<CourseLevel> list = courseLevelIBaseDao.findList(" from CourseLevel where aid in (" + aid + ")");
-            if (list != null) {
-                return ResultUtil.error(2, "该课程下面有课时，请先删除课时");
+            List<CourseLevel> list = courseLevelIBaseDao.findList(" from CourseLevel where aid in (" + aid + ") and isDel=2");
+            if (list != null&&list.size()>0) {
+                return ResultUtil.error(2, "该课程下面有课程级别，请先删除课程级别");
             } else {
-                int i = adao.deleteWithHql("delete from Acourse where aid in (" + aid + ")");
+                int i = adao.deleteWithHql("update  Acourse set isDel=1 where aid in (" + aid + ")");
                 return ResultUtil.success("删除成功！");
             }
         } catch (Exception e) {
@@ -98,9 +100,9 @@ public class CourierBizImpl implements IcourseBiz {
     public Result courseList(String aname) throws Exception {
         String hql = "";
         if (aname != null) {
-            hql = "from Acourse where aname like('%" + aname + "%')";
+            hql = "from Acourse where aname like('%" + aname + "%') and isDel=2";
         } else {
-            hql = "from Acourse";
+            hql = "from Acourse where isDel=2";
         }
         List<Acourse> list = adao.findList(hql);
 
@@ -124,10 +126,12 @@ public class CourierBizImpl implements IcourseBiz {
             Session sessions = adao.getSessions();
             try {
                 sessions.evict(one);
-                sessions.evict(adaoOne);
+//                sessions.evict(adaoOne);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            acourse.setCreatTime(one.getCreatTime());
+            acourse.setIsDel(2);
             boolean update = adao.update(acourse);
             if (update) {
                 return ResultUtil.success("修改成功！");
@@ -143,6 +147,7 @@ public class CourierBizImpl implements IcourseBiz {
     //*******************************************课程结构模块***********************************************************
     @Override
     public Result inCourseLevel(CourseLevel courseLevel) {
+        courseLevel.setIsDel(2);
         int save = courseLevelIBaseDao.save(courseLevel);
         if (save > 0) {
             return ResultUtil.success("添加成功");
@@ -152,6 +157,7 @@ public class CourierBizImpl implements IcourseBiz {
 
     @Override
     public Result upCourseLevel(CourseLevel courseLevel) throws Exception {
+        courseLevel.setIsDel(2);
         boolean update = courseLevelIBaseDao.update(courseLevel);
         if (update) {
             return ResultUtil.success("修改成功");
@@ -161,9 +167,9 @@ public class CourierBizImpl implements IcourseBiz {
 
     @Override
     public Result courseLevelList(CourseLevel courseLevel) throws Exception {
-        StringBuffer stringBuffer = new StringBuffer("select * from CourseLevel where 1==1");
+        StringBuffer stringBuffer = new StringBuffer("from CourseLevel where isDel=2");
         if (courseLevel.getAid() != null) {
-            stringBuffer.append(" aid=" + courseLevel.getAid());
+            stringBuffer.append(" and aid=" + courseLevel.getAid());
         }
         if (courseLevel.getLevelName() != null) {
             stringBuffer.append(" and levelName='" + courseLevel.getLevelName() + "'");
@@ -177,11 +183,11 @@ public class CourierBizImpl implements IcourseBiz {
         if (ids.endsWith(",")) {
             ids = ids.substring(0, ids.length() - 1);
         }
-        List<Bhour> bdaoList = bdao.findList("from Bhour where levelId in (" + ids + ")");
-        if (bdaoList != null) {
+        List<Bhour> bdaoList = bdao.findList("from Bhour where levelId in (" + ids + ") and isDel=2");
+        if (bdaoList != null&&bdaoList.size()>0) {
             return ResultUtil.error(2, "改课程级别下有课时，请先删除课时");
         }
-        int i = courseLevelIBaseDao.deleteWithHql("delete from CourseLevel where levelId in (" + ids + ")");
+        int i = courseLevelIBaseDao.deleteWithHql("update  CourseLevel set isDel=1 where levelId in (" + ids + ")");
         if (i > 0) {
             return ResultUtil.success("删除成功");
         }
@@ -198,12 +204,18 @@ public class CourierBizImpl implements IcourseBiz {
      */
     @Override
     public Result insertBhour(Bhour bhour) throws Exception {
-        int i = bdao.save(bhour);
-        Bhour one = bdao.getOne(Bhour.class, i);
-        if (i > 0) {
-            return ResultUtil.success("添加课时成功！", one);
-        } else {
-            return ResultUtil.error(2, "添加课时失败！");
+        bhour.setIsDel(2);
+        Bhour bdaoOne = bdao.findOne("from Bhour where levelId=" + bhour.getLevelId() + " and bname='" + bhour.getBname() + "' and isDel=2");
+        if(bdaoOne==null){
+            int i = bdao.save(bhour);
+            if (i > 0) {
+                Bhour bdaoOne1 = bdao.findOne("from Bhour where levelId=" + bhour.getLevelId() + " and bname='" + bhour.getBname() + "' and isDel=2");
+                return ResultUtil.success("添加课时成功！",bdaoOne1);
+            } else {
+                return ResultUtil.error(2, "添加课时失败！");
+            }
+        }else{
+            return ResultUtil.success("添加课时成功！",bdaoOne);
         }
     }
 
@@ -219,11 +231,11 @@ public class CourierBizImpl implements IcourseBiz {
             bid = bid.substring(0, bid.length() - 1);
         }
         try {
-            List<Ctopic> list = cdao.findList(" from Ctopic where bid  in (" + bid + ")");
+            List<Ctopic> list = cdao.findList(" from Ctopic where bid  in (" + bid + ") and isDel=2");
             if (list.size() > 0) {
                 return ResultUtil.error(2, "该课时下面有课程详情，不能删除！");
             } else {
-                int i = adao.deleteWithHql("delete from Bhour where bid in (" + bid + ")");
+                int i = adao.deleteWithHql("update  Bhour set isDel=1 where bid in (" + bid + ")");
                 return ResultUtil.success("删除成功！");
             }
         } catch (Exception e) {
@@ -238,7 +250,7 @@ public class CourierBizImpl implements IcourseBiz {
      */
     @Override
     public Result bhourList(Integer aid) throws Exception {
-        List<Bhour> list = bdao.findList("from Bhour where levelId=" + aid);
+        List<Bhour> list = bdao.findList("from Bhour where levelId=" + aid+" and isDel=2");
         return ResultUtil.success("课时列表", list);
     }
 
@@ -253,6 +265,7 @@ public class CourierBizImpl implements IcourseBiz {
         Bhour one = bdao.getOne(Bhour.class, bhour.getBid());
         if (one != null) {
             bdao.getSessions().evict(one);
+            bhour.setIsDel(2);
             boolean update = bdao.update(bhour);
             if (update) {
                 return ResultUtil.success("修改成功！");
@@ -301,12 +314,13 @@ public class CourierBizImpl implements IcourseBiz {
     @Override
     public Result insertCtopic(InCourseBean inCourseBean) {
         int i = 0;
-        for (Ctopic ctopic : inCourseBean.getCtopics()) {
+        for (Ctopic ctopic : inCourseBean.getList()) {
             ctopic.setBid(inCourseBean.getBid());
+            ctopic.setIsDel(2);
             cdao.save(ctopic);
             i++;
         }
-        if (i == inCourseBean.getCtopics().size()) {
+        if (i == inCourseBean.getList().size()) {
             return ResultUtil.success("添加课程详情成功！");
         } else {
             return ResultUtil.error(2, "添加课程详情失败！");
@@ -321,7 +335,7 @@ public class CourierBizImpl implements IcourseBiz {
      */
     @Override
     public Result ctopicList(Integer cbid) throws Exception {
-        List<Ctopic> list = cdao.findList("from Ctopic where bid=" + cbid);
+        List<Ctopic> list = cdao.findList("from Ctopic where bid=" + cbid+" and isDel=2");
         return ResultUtil.success("根据课时查询课程详情", list);
     }
 
@@ -337,7 +351,7 @@ public class CourierBizImpl implements IcourseBiz {
             cid = cid.substring(0, cid.length() - 1);
         }
         try {
-            int i = cdao.deleteWithHql("delete from Ctopic where cid in (" + cid + ")");
+            int i = cdao.deleteWithHql("update  Ctopic set isDel=1 where cid in (" + cid + ")");
             return ResultUtil.success("删除成功！");
         } catch (Exception e) {
             return ResultUtil.error(2, "删除失败！");
@@ -368,6 +382,7 @@ public class CourierBizImpl implements IcourseBiz {
             if (i == set.size()) {
                 Session sessions = cdao.getSessions();
                 sessions.evict(one);
+                ctopic.setIsDel(2);
                 boolean update = cdao.update(ctopic);
                 if (update) {
                     return ResultUtil.success("修改成功！");
@@ -391,22 +406,24 @@ public class CourierBizImpl implements IcourseBiz {
      */
     @Override
     public Result courseManageList(String aname, Integer currentPage, Integer pageSiz) throws Exception {
-        StringBuffer hql = new StringBuffer("select b from Acourse a ,CourseLevel b where a.aid=b.aid ");
-        StringBuffer count = new StringBuffer("select count(*) from Acourse a ,CourseLevel b where a.aid=b.aid ");
+        StringBuffer hql = new StringBuffer("select b from Acourse a ,CourseLevel b where a.aid=b.aid and a.isDel=2 and b.isDel=2");
+        StringBuffer count = new StringBuffer("select count(b) from Acourse a ,CourseLevel b where a.aid=b.aid and a.isDel=2 and b.isDel=2");
         if (aname != null) {
-            hql.append(" and aname like '%" + aname + "%'");
-            count.append(" and aname like '%" + aname + "%'");
+            hql.append(" and a.aname like '%" + aname + "%'");
+            count.append(" and a.aname like '%" + aname + "%'");
         }
         Page<CourseLevel> page = courseLevelIBaseDao.findPage(currentPage, pageSiz, hql.toString(), count.toString());
         List<CourseDetilesBean> list = new ArrayList<CourseDetilesBean>();
-        for (CourseLevel bhour : page.getList()) {
-            Acourse one = adao.getOne(Acourse.class, bhour.getAid());
-            CourseDetilesBean courseDetilesBean = new CourseDetilesBean();
-            courseDetilesBean.setAid(one.getAid());
-            courseDetilesBean.setAname(one.getAname());
-            courseDetilesBean.setLevelId(bhour.getLevelId());
-            courseDetilesBean.setLevelName(bhour.getLevelName());
-            list.add(courseDetilesBean);
+        if(page!=null&&page.getList()!=null&&page.getList().size()>0){
+            for (CourseLevel bhour : page.getList()) {
+                Acourse one = adao.getOne(Acourse.class, bhour.getAid());
+                CourseDetilesBean courseDetilesBean = new CourseDetilesBean();
+                courseDetilesBean.setAid(one.getAid());
+                courseDetilesBean.setAname(one.getAname());
+                courseDetilesBean.setLevelId(bhour.getLevelId());
+                courseDetilesBean.setLevelName(bhour.getLevelName());
+                list.add(courseDetilesBean);
+            }
         }
         Map map = new HashMap();
         map.put("total", page.getTotal());
@@ -426,12 +443,12 @@ public class CourierBizImpl implements IcourseBiz {
      */
     @Override
     public Result courseDetaisList(int leveId , String name,Integer currentPage,Integer pageSiz) throws Exception {
-
-        String sql="from Bhour where levelId="+leveId;
+        CourseLevel one = courseLevelIBaseDao.getOne(CourseLevel.class, leveId);
+        String sql="from Bhour where levelId="+leveId+" and isDel=2";
         String count="select count(*) from Bhour where levelId="+leveId;
         if(name!=null){
-            sql="from Bhour where levelId="+leveId+" and bname like '%"+name+"%'";
-            count="select count(*) from Bhour where levelId="+leveId+" and bname like '%"+name+"%'";;
+            sql="from Bhour where levelId="+leveId+"and isDel=2 and bname like '%"+name+"%'";
+            count="select count(*) from Bhour where levelId="+leveId+" and isDel=2 and bname like '%"+name+"%'";;
         }
         Page<Bhour> page = bdao.findPage(currentPage, pageSiz, sql, count);
         List<InCourseBean> list = new ArrayList<InCourseBean>();
@@ -439,9 +456,10 @@ public class CourierBizImpl implements IcourseBiz {
             for (Bhour bhour : page.getList()) {
                 List<Ctopic> cdaoList = cdao.findList("from Ctopic where bid=" + bhour.getBid());
                 InCourseBean inCourseBean=new InCourseBean();
+                inCourseBean.setLevelName(one.getLevelName());
                 inCourseBean.setBid(bhour.getBid());
                 inCourseBean.setBname(bhour.getBname());
-                inCourseBean.setCtopics(cdaoList);
+                inCourseBean.setList(cdaoList);
                 list.add(inCourseBean);
             }
         }
@@ -471,20 +489,22 @@ public class CourierBizImpl implements IcourseBiz {
     @Override
     public Result courseTreeAll() throws Exception {
         List<CourseTreeBean> list = new ArrayList<CourseTreeBean>();
-        List<Acourse> list1 = adao.findList(" from Acourse");
+        List<Acourse> list1 = adao.findList(" from Acourse where isDel=2");
         for (Acourse acourse : list1) {
             CourseTreeBean courseTreeBean = new CourseTreeBean();
             courseTreeBean.setId(acourse.getAid());
             courseTreeBean.setName(acourse.getAname());
             courseTreeBean.setPath(String.valueOf(acourse.getAid()) + ";" + "0");
-            List<CourseLevel> list2 = courseLevelIBaseDao.findList(" from CourseLevel where aid=" + acourse.getAid());
+            List<CourseLevel> list2 = courseLevelIBaseDao.findList(" from CourseLevel where aid=" + acourse.getAid()+" and isDel=2");
             List<CourseTreeBean.course> list3 = new ArrayList<CourseTreeBean.course>();
-            for (CourseLevel bhour : list2) {
-                CourseTreeBean.course course = new CourseTreeBean.course();
-                course.setId(bhour.getLevelId());
-                course.setName(bhour.getLevelName());
-                course.setPath(String.valueOf(bhour.getLevelId()) + ";" + String.valueOf(bhour.getAid()));
-                list3.add(course);
+            if(list2!=null&&list2.size()>0){
+                for (CourseLevel bhour : list2) {
+                    CourseTreeBean.course course = new CourseTreeBean.course();
+                    course.setId(bhour.getLevelId());
+                    course.setName(bhour.getLevelName());
+                    course.setPath(String.valueOf(bhour.getLevelId()) + ";" + String.valueOf(bhour.getAid()));
+                    list3.add(course);
+                }
             }
             courseTreeBean.setChildren(list3);
             list.add(courseTreeBean);

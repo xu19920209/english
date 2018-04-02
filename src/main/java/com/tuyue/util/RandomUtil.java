@@ -23,9 +23,18 @@ public class RandomUtil {
         }
         return sb.toString();
     }
-      public static void main(String[] args){
-          RandomUtil t = new RandomUtil();
-          String s = t.randomString(5);
-          System.out.println(s);
-      }
+
+    public static String random(int length){
+        //String base = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
+        String base="0123456789";
+        Random random = new Random();
+        StringBuffer sb = new StringBuffer();
+        int number = 0;
+        for (int i = 0; i < length; i++) {
+            number = random.nextInt(base.length());
+            sb.append(base.charAt(number));
+        }
+        return sb.toString();
+    }
+
 }

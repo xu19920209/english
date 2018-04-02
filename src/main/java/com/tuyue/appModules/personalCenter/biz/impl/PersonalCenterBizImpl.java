@@ -95,10 +95,11 @@ public class PersonalCenterBizImpl implements IpersonalCenterBiz {
      * @Description:忘记密码
      * @Date: 9:39 2017/9/14
      */
-    public Result forgetPwd(Nstudent nstudent) throws Exception {
-        Nstudent one = ndao.findOne(" from Nstudent where username='" + nstudent.getUsername() + "'");
+    @Override
+    public Result forgetPwd(String userName,String passWord) throws Exception {
+        Nstudent one = ndao.findOne(" from Nstudent where username='" + userName + "'");
         if (one != null) {
-            one.setPassword(nstudent.getPassword());
+            one.setPassword(passWord);
             boolean update = ndao.update(one);
             if (update) {
                 return ResultUtil.success("修改成功！");
@@ -266,7 +267,7 @@ public class PersonalCenterBizImpl implements IpersonalCenterBiz {
                 if (tstuWorkFinish.getNid() == nid) {
                     tstuWorkFinish1 = tstuWorkFinish.clone();
                 }
-                if (list2.size() > 0) {
+                if (list2!=null&&list2.size() > 0) {
                     for (AllTestAnswer allTestAnswer : list2) {
                         if (tstuWorkFinish.getNid() == allTestAnswer.getNid()) {
                             if (allTestAnswer.getGrade() > tstuWorkFinish.getSysGrade()) {

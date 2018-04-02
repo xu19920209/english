@@ -32,8 +32,8 @@ public class AppAdultController {
      * @Date: 11:05 2017/9/14
      */
     @RequestMapping("adultWorkList.do")
-    public Result adultWorkList(Integer nid) throws Exception{
-      return   biz.adultWorkList(nid);
+    public Result adultWorkList(Integer nid,Integer levelId) throws Exception{
+      return   biz.adultWorkList(nid,levelId);
     }
 
     /**
@@ -73,5 +73,25 @@ public class AppAdultController {
         }
         wadultWorkDetails.setFinishTime(new Timestamp(System.currentTimeMillis()));
         return  biz.adultToWork(wadultWorkDetails);
+    }
+
+
+    /**
+     * 成人课程列表
+     * @return
+     */
+    @RequestMapping(value = "adultCourse",produces = {"application/json;UTF-8"})
+    public Result adultCourse() throws Exception{
+        return biz.adultCourse();
+    }
+
+    /**
+     * 成人课程级别列表
+     * @param aid
+     * @return
+     */
+    @RequestMapping("adultLevel")
+    public Result adultLevel(@RequestParam(required = true) int aid) throws Exception{
+        return biz.adultLevel(aid);
     }
 }

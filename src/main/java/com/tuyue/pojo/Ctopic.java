@@ -15,6 +15,7 @@ public class Ctopic {
     private String csentence;
     private String ctranslate;
     private Integer bid;
+    private Integer isDel;
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -89,5 +90,15 @@ public class Ctopic {
                 ", ctranslate='" + ctranslate + '\'' +
                 ", bid=" + bid +
                 '}';
+    }
+
+    @Basic
+    @Column(name = "is_del")
+    public Integer getIsDel() {
+        return isDel;
+    }
+
+    public void setIsDel(Integer isDel) {
+        this.isDel = isDel;
     }
 }

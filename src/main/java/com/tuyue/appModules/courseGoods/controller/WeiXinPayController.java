@@ -85,8 +85,15 @@ public class WeiXinPayController {
             //公众号支付
             wXinPay.setAppid("wxe3a90d951480bf12");
             wXinPay.setMch_id(WeiXinParam.gongMchId);
-            wXinPay.setTrade_type("JSAPI");
-            wXinPay.setOpenid(openid);
+            if (openid!=null&&!"".equals(openid))
+            {
+                wXinPay.setTrade_type("JSAPI");
+                wXinPay.setOpenid(openid);
+            }else{
+                wXinPay.setTrade_type("JSAPI");
+                //wXinPay.setTrade_type("MWEB");
+               // wXinPay.setScene_info("{\"h5_info\": {\"type\":\"Wap\",\"wap_url\": \"http://www.ai4001120150.com\",\"wap_name\": \"课程购买\"}}");
+            }
             key = WeiXinParam.gongKey;
         }
         wXinPay.setNonce_str(System.currentTimeMillis() + RandomUtil.randomString(5));
@@ -120,7 +127,7 @@ public class WeiXinPayController {
                 mapSign.put("signType", "MD5");
                 result = WeChatPaySignature.getSignMap(mapSign, WeiXinParam.gongKey);
             }
-            System.out.println("sign:" + result);
+            System.out.println("SUCCESSsign:" + result);
             Map map1 = new HashMap();
             map1.put("sign", result);
             map1.put("prepayid", map.get("prepay_id"));
@@ -129,6 +136,7 @@ public class WeiXinPayController {
             map1.put("mchId", WeiXinParam.mchId);
             return ResultUtil.success(map1);
         }
+        System.out.println("erroe");
         return ResultUtil.error(2, (String) map.get("return_msg"));
     }
 

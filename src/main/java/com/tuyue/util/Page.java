@@ -10,7 +10,7 @@ public class Page<T> {
 
     private int currentPage = 1;//当前页
     private int allpage = 0;//一共有几页
-    private long total = 0;//总条数
+    private long total = 1;//总条数
     private int pageSize = 10;//每页显示几条
     private String orderBy = "";
     private String order = "";

@@ -13,9 +13,11 @@ public class CourseLevel {
     private int levelId;
     private String levelName;
     private Integer aid;
+    private Integer isDel;
 
     @Id
     @Column(name = "level_id")
+    @GeneratedValue
     public int getLevelId() {
         return levelId;
     }
@@ -64,5 +66,15 @@ public class CourseLevel {
         result = 31 * result + (levelName != null ? levelName.hashCode() : 0);
         result = 31 * result + (aid != null ? aid.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "is_del")
+    public Integer getIsDel() {
+        return isDel;
+    }
+
+    public void setIsDel(Integer isDel) {
+        this.isDel = isDel;
     }
 }

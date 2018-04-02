@@ -102,7 +102,9 @@ public class AppCourseGoodBizImpl implements com.tuyue.appModules.courseGoods.bi
             for (ACourseGood aCourseGood : page.getList()) {
                 List<CourseGoodsOrder> list = courseGoodsOrderIBaseDao.findList(" from CourseGoodsOrder where (orderState=1 or orderState=3) and courseId=" + aCourseGood.getCourseId());
                 Ebranchschool one = ebranchschoolIBaseDao.getOne(Ebranchschool.class, aCourseGood.getEid());
-                aCourseGood.setAddress(one.getProvince()+one.getCity()+one.getDistricts()+one.getAddress());
+                if(one!=null){
+                    aCourseGood.setAddress(one.getProvince()+one.getCity()+one.getDistricts()+one.getAddress());
+                }
                 if(list.size()>=aCourseGood.getPeopleNum()){
                     aCourseGood.setFlag(2);
                 }else{
@@ -121,7 +123,7 @@ public class AppCourseGoodBizImpl implements com.tuyue.appModules.courseGoods.bi
      * @Date: 13:33 2017/12/11
      */
     @Override
-    public Result orderIn(Integer nid, Integer courseId, String phone) throws Exception {
+    public Result orderIn(Integer nid, Integer courseId, String phone,String name,String address) throws Exception {
 //        Agent one = agentIBaseDao.findOne(" from Agent where agentTel=" + phone);
 //        if (one == null) {
 //            return ResultUtil.error(2, "您输入的推荐人查找不到");
@@ -140,9 +142,11 @@ public class AppCourseGoodBizImpl implements com.tuyue.appModules.courseGoods.bi
         courseGoodsOrder.setOrderNo(orderNo);
         courseGoodsOrder.setOrderTime(new Timestamp(System.currentTimeMillis()));
         courseGoodsOrder.setOrderState(2);
+        courseGoodsOrder.setAddress(address);
+        courseGoodsOrder.setName(name);
         int i = courseGoodsOrderIBaseDao.save(courseGoodsOrder);
         if (i > 0) {
-//            OrderDetail orderDetail = new OrderDetail();
+     //       OrderDetail orderDetail = new OrderDetail();
 //            orderDetail.setAgentName(one.getAgentName());
 //            orderDetail.setAgentTel(one.getAgentTel());
 //            orderDetail.setPeopleNum(one1.getPeopleNum());

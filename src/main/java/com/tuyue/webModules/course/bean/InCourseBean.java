@@ -12,7 +12,17 @@ import java.util.List;
 public class InCourseBean {
     private String bname;
     private int bid;
-    private List<Ctopic>ctopics;
+    private String levelName;
+
+    private List<Ctopic>list;
+
+    public String getLevelName() {
+        return levelName;
+    }
+
+    public void setLevelName(String levelName) {
+        this.levelName = levelName;
+    }
 
     public int getBid() {
         return bid;
@@ -22,12 +32,12 @@ public class InCourseBean {
         this.bid = bid;
     }
 
-    public List<Ctopic> getCtopics() {
-        return ctopics;
+    public List<Ctopic> getList() {
+        return list;
     }
 
-    public void setCtopics(List<Ctopic> ctopics) {
-        this.ctopics = ctopics;
+    public void setList(List<Ctopic> list) {
+        this.list = list;
     }
 
     public String getBname() {
@@ -36,5 +46,15 @@ public class InCourseBean {
 
     public void setBname(String bname) {
         this.bname = bname;
+    }
+
+    @Override
+    public String toString() {
+        return "InCourseBean{" +
+                "bname='" + bname + '\'' +
+                ", bid=" + bid +
+                ", levelName='" + levelName + '\'' +
+                ", list=" + list +
+                '}';
     }
 }

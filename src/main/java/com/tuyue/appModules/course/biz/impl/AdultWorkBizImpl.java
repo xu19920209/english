@@ -35,6 +35,8 @@ public class AdultWorkBizImpl implements IadultWorkBiz {
     private IBaseDao<WadultWorkDetails> wdao;
     @Autowired
     private IBaseDao<Nstudent> ndao;
+    @Autowired
+    private IBaseDao<CourseLevel>courseLevelIBaseDao;
 
     /**
      * @Author: 徐慷慨
@@ -42,19 +44,13 @@ public class AdultWorkBizImpl implements IadultWorkBiz {
      * @Date: 11:05 2017/9/14
      */
     @Override
-    public Result adultWorkList(Integer nid) throws Exception {
+    public Result adultWorkList(Integer nid,Integer levelId) throws Exception {
         List<WorkListBean> list = new ArrayList<WorkListBean>();
-        List<VadultWork> list1 = vdao.findList("from VadultWork where vflag=1 GROUP BY bid ,layoutTime");
+        List<VadultWork> list1 = vdao.findList("from VadultWork where levelId="+levelId+"and vflag=1 GROUP BY bid order by layoutTime desc");
         for (VadultWork vadultWork : list1) {
             WorkListBean workListBean = new WorkListBean();
-            Acourse one = adao.getOne(Acourse.class, vadultWork.getAid());
+            workListBean.setAid(vadultWork.getAid());
             Bhour one1 = bdao.getOne(Bhour.class, vadultWork.getBid());
-            if (one != null) {
-                workListBean.setAname(one.getAname());
-                workListBean.setAid(one.getAid());
-            } else {
-                workListBean.setAname("");
-            }
             if (one1 != null) {
                 workListBean.setBname(one1.getBname());
                 workListBean.setBid(one1.getBid());
@@ -65,10 +61,12 @@ public class AdultWorkBizImpl implements IadultWorkBiz {
             double num = 0;//成绩
             //完成个数
             if(nid!=null&&nid>0){
-                List<WadultWorkDetails> list2 = wdao.findList("select w from  WadultWorkDetails ,VadultWork v where v.vflag=1 and v.bid=" + vadultWork.getBid() + " and v.vid=w.vid and w.nid="+nid+" and v.layoutTime='"+vadultWork.getLayoutTime()+"'");
-                workListBean.setFinish(list2.size());
-                for (WadultWorkDetails wadultWorkDetails : list2) {
-                    num += wadultWorkDetails.getWorkScore();
+                List<WadultWorkDetails> list2 = wdao.findList("select w from  WadultWorkDetails w ,VadultWork v where v.vflag=1 and v.bid=" + vadultWork.getBid() + " and v.vid=w.vid and w.nid="+nid+" and v.layoutTime='"+vadultWork.getLayoutTime()+"'");
+                workListBean.setFinish(list2!=null?list2.size():0);
+                if(list2!=null&&list2.size()>0){
+                    for (WadultWorkDetails wadultWorkDetails : list2) {
+                        num += wadultWorkDetails.getWorkScore();
+                    }
                 }
             }
             //总数
@@ -166,6 +164,39 @@ public class AdultWorkBizImpl implements IadultWorkBiz {
         }
     }
 
+    /**
+     * 成人课程列表
+     * @return
+     */
+    @Override
+    public Result adultCourse() throws Exception {
+        List<VadultWork> vdaoList = vdao.findList("from VadultWork where vflag=1 group by aid");
+        List<Acourse> list=new ArrayList<Acourse>();
+        if(vdaoList!=null&&vdaoList.size()>0){
+            for (VadultWork vadultWork : vdaoList) {
+                Acourse acourse = adao.getOne(Acourse.class, vadultWork.getAid());
+                list.add(acourse);
+            }
+        }
+        return ResultUtil.success(list);
+    }
 
+    /**
+     * 成人课程级别列表
+     * @param aid
+     * @return
+     */
+    @Override
+    public Result adultLevel(int aid) throws Exception {
+        List<VadultWork> vdaoList = vdao.findList("from VadultWork where vflag=1 and aid="+aid+"group by levelId");
+        List<CourseLevel> list=new ArrayList<CourseLevel>();
+        if(vdaoList!=null&&vdaoList.size()>0){
+            for (VadultWork vadultWork : vdaoList) {
+                CourseLevel acourse = courseLevelIBaseDao.getOne(CourseLevel.class, vadultWork.getLevelId());
+                list.add(acourse);
+            }
+        }
+        return ResultUtil.success(list);
+    }
 
 }

@@ -16,7 +16,7 @@ public interface IadultWorkBiz {
      * @Description:成人作业列表
      * @Date: 11:05 2017/9/14
      */
-    public Result adultWorkList(Integer nid) throws Exception;
+    public Result adultWorkList(Integer nid,Integer levelId) throws Exception;
 
     /**
      * @Author: 徐慷慨
@@ -31,5 +31,16 @@ public interface IadultWorkBiz {
      */
     public Result adultToWork(WadultWorkDetails wadultWorkDetails) throws Exception;
 
+    /**
+     * 成人课程列表
+     * @return
+     */
+    public Result adultCourse() throws Exception;
 
+    /**
+     * 成人课程级别列表
+     * @param aid
+     * @return
+     */
+    public Result adultLevel(int aid) throws Exception;
 }
