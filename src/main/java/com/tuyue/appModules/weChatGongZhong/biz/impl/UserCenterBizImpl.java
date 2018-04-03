@@ -143,7 +143,7 @@ public class UserCenterBizImpl implements UserCenterBiz {
             if(ids.endsWith(",")){
                 ids=ids.substring(0,ids.length()-1);
             }
-            if(one2.getBankNumber()!=null){
+            if(one2!=null&&one2.getBankNumber()!=null){
                 userCenterBean.setType(1);
             }else{
                 userCenterBean.setType(0);
@@ -349,7 +349,7 @@ public class UserCenterBizImpl implements UserCenterBiz {
     public Result  login(Nstudent nstudent) throws Exception {
         Nstudent one = nstudentIBaseDao.findOne("from Nstudent where username='" + nstudent.getUsername() + "' and password='" + nstudent.getPassword() + "'");
         if(one==null){
-            return ResultUtil.error(2,"登录失败！");
+            return ResultUtil.error(2,"用户名或密码错误！");
         }else{
             one.setOpenId(nstudent.getOpenId());
             nstudentIBaseDao.update(one);

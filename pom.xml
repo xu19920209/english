@@ -12,7 +12,7 @@
     <spring.version>4.3.12.RELEASE</spring.version>
     <hibernate.version>4.3.8.Final</hibernate.version>
     <jackson.version>2.9.0</jackson.version>
-      <version.feilong-platform>1.10.7</version.feilong-platform>
+    <version.feilong-platform>1.10.7</version.feilong-platform>
   </properties>
 
   <repositories>

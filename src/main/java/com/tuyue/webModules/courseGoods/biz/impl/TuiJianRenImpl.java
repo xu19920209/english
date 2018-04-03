@@ -1,8 +1,4 @@
 package com.tuyue.webModules.courseGoods.biz.impl;
-
-import cn.jpush.api.TestOrder;
-import com.alibaba.fastjson.support.odps.udf.CodecCheck;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.tuyue.dao.IBaseDao;
 import com.tuyue.pojo.*;
 import com.tuyue.result.Result;
@@ -58,7 +54,8 @@ public class TuiJianRenImpl implements TuiJianRen {
     public Result tuiJianList(Integer type,Integer currentPage,Integer pageSize,String phone) throws Exception {
         StringBuffer HQL = new StringBuffer("FROM Agent where 1=1");
         StringBuffer COUNT = new StringBuffer("select count(*) from Agent where 1=1");
-         if(type!=null&&type==1){//已购买
+        //已购买
+         if(type!=null&&type==1){
              HQL.append(" and agentStaus!=1");
              COUNT.append(" and agentStaus!=1");
          }
@@ -78,10 +75,10 @@ public class TuiJianRenImpl implements TuiJianRen {
              for (Agent agent : page.getList()) {
                  Nstudent one = nstudentIBaseDao.getOne(Nstudent.class, agent.getNid());
                  agent.setStudentName(one!=null?one.getStudentName():"");
-                 Nstudent one1 = nstudentIBaseDao.findOne("from Nstudent where username='" + one.getReferrerPhone() + "'");
-                 if(one1!=null){
-                     agent.setTuijainName(one1.getStudentName());
-                 }
+//                 Nstudent one1 = nstudentIBaseDao.findOne("from Nstudent where username='" + one.getReferrerPhone() + "'");
+//                 if(one1!=null){
+//                     agent.setTuijainName(one1.getStudentName());
+//                 }
                  agentList.add(agent);
              }
              page.setList(agentList);
@@ -231,7 +228,7 @@ public class TuiJianRenImpl implements TuiJianRen {
         double money=0.0;
         List<YeJiMingXi> list=new ArrayList<YeJiMingXi>();
         if(page.getList().size()<=0){
-            Map map =new HashMap();
+            Map map =new HashMap(7);
             map.put("currentPage",0);
             map.put("pageSize",0);
             map.put("list",list);
@@ -258,11 +255,11 @@ public class TuiJianRenImpl implements TuiJianRen {
                     yeJiMingXi.setMoney(courseGoodsOrder.getPayMoney());
                 }
                 yeJiMingXi.setTime(courseGoodsOrder.getPayTime().toString().substring(0,courseGoodsOrder.getPayTime().toString().length()-2));
-                yeJiMingXi.setAddress(courseGoodsOrder.getAddress());
+                yeJiMingXi.setAddress(null!=courseGoodsOrder.getAddress()?courseGoodsOrder.getAddress():"");
                 list.add(yeJiMingXi);
             }
         }
-        Map map =new HashMap();
+        Map map =new HashMap(15);
         long count1 = courseGoodsOrderIBaseDao.findCount("select count(*) from CourseGoodsOrder where orderState=1");
         List<CourseGoodsOrder> list1 = courseGoodsOrderIBaseDao.findList(" from CourseGoodsOrder where orderState=1");
 

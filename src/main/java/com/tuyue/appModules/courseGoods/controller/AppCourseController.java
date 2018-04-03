@@ -170,6 +170,7 @@ public class AppCourseController {
     public Result delete(String orderNo) throws Exception{
         return courseGoodBiz.delete(orderNo);
     }
+
     /**
      * @Author: 徐慷慨
      * @Description:支付时判断该课程是不是已经购买人数满了

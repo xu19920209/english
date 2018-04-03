@@ -38,18 +38,5 @@ public class TestController {
          return  partMoneyBiz.partMoney(a);
 
     }
-//    @RequestMapping("bbbb")
-//    public static String getEmojiUnicodeString(String str){
-//        EmojiTransformer  transformer = new EmojiTransformer() {
-//            public String transform(UnicodeCandidate unicodeCandidate) {
-//                return unicodeCandidate.getEmoji().getHtmlHexadecimal();
-//            }
-//        };
-//        StringBuilder sb = new StringBuilder();
-//        List<UnicodeCandidate> replacements = getUnicodeCandidates(input);
-//        for (UnicodeCandidate candidate : replacements) {
-//            sb.append(transformer.transform(candidate));
-//        }
-//        return  parseToUnicode(sb.toString());
-//    }
+
 }

@@ -26,7 +26,6 @@ public class CourseGoodsOrder {
     private String phone;
 
     @Basic
-    @Transient
     @Column(name = "address")
     public String getAddress() {
         return address;
